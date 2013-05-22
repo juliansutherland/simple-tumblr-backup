@@ -13,17 +13,12 @@ consumer_secret = config['consumer_secret']
 oauth_token = config['oauth_token']
 oauth_token_secret = config['oauth_token_secret']
 
-print blog
-
 tumblrclient = pytumblr.TumblrRestClient(consumer_key,consumer_secret,oauth_token,oauth_token_secret)
 mongoclient = MongoClient()
 
 db = mongoclient.tumblr
 posts = db.posts
-#result = json.loads(tumblrclient.posts(blog,**params))
-#print json.dumps(result, sort_keys=True, indent=4)
 
-"""
 likes = db.likes
 result = json.loads(tumblrclient.likes())
 likelimit = result['response']['liked_count']
@@ -35,7 +30,6 @@ while i <= likelimit:
     post_ids.append(likes.insert(tumblrlikes))
     i += 20
     print "Imported %d of %d likes." % (i,likelimit)
-"""
 
 posts = db.posts
 result = json.loads(tumblrclient.posts(blog))
