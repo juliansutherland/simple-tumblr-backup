@@ -24,12 +24,17 @@ result = json.loads(tumblrclient.likes())
 likelimit = result['response']['liked_count']
 i = 0
 post_ids = []
+options = {}
 while i <= likelimit:
+    options["offset"] = i
     result = json.loads(tumblrclient.likes(i))
     tumblrlikes = result['response']['liked_posts']
     post_ids.append(likes.insert(tumblrlikes))
     i += 20
-    print "Imported %d of %d likes." % (i,likelimit)
+    if i > postlimit:
+    	print "Imported %d of %d posts." % (postlimit,postlimit)
+    else:
+        print "Imported %d of %d posts." % (i,postlimit)
 
 posts = db.posts
 result = json.loads(tumblrclient.posts(blog))
@@ -43,4 +48,7 @@ while i <= postlimit:
     tumblrposts = result['response']['posts']
     post_ids.append(posts.insert(tumblrposts))
     i += 20
-    print "Imported %d of %d posts." % (i,postlimit)
+    if i > postlimit:
+    	print "Imported %d of %d posts." % (postlimit,postlimit)
+    else:
+        print "Imported %d of %d posts." % (i,postlimit)
