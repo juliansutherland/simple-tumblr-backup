@@ -17,7 +17,6 @@ tumblrclient = pytumblr.TumblrRestClient(consumer_key,consumer_secret,oauth_toke
 mongoclient = MongoClient()
 
 db = mongoclient.tumblr
-posts = db.posts
 
 likes = db.likes
 result = json.loads(tumblrclient.likes())
@@ -27,14 +26,14 @@ post_ids = []
 options = {}
 while i <= likelimit:
     options["offset"] = i
-    result = json.loads(tumblrclient.likes(i))
+    result = json.loads(tumblrclient.likes(**options))
     tumblrlikes = result['response']['liked_posts']
     post_ids.append(likes.insert(tumblrlikes))
     i += 20
-    if i > postlimit:
-    	print "Imported %d of %d posts." % (postlimit,postlimit)
+    if i > likelimit:
+    	print "Imported %d of %d posts." % (likelimit,likelimit)
     else:
-        print "Imported %d of %d posts." % (i,postlimit)
+        print "Imported %d of %d posts." % (i,likelimit)
 
 posts = db.posts
 result = json.loads(tumblrclient.posts(blog))
