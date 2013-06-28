@@ -8,6 +8,8 @@ with open("config.json") as f:
     config = json.load(f)
 
 blog = config['blog']
+likes = config['likes']
+posts = config['posts']
 consumer_key = config['consumer_key']
 consumer_secret = config['consumer_secret']
 oauth_token = config['oauth_token']
@@ -18,7 +20,6 @@ mongoclient = MongoClient()
 
 db = mongoclient.tumblr
 
-likes = db.likes
 result = json.loads(tumblrclient.likes())
 likelimit = result['response']['liked_count']
 i = 0
@@ -35,7 +36,6 @@ while i <= likelimit:
     else:
         print "Imported %d of %d posts." % (i,likelimit)
 
-posts = db.posts
 result = json.loads(tumblrclient.posts(blog))
 postlimit = result['response']['total_posts']
 i = 0
